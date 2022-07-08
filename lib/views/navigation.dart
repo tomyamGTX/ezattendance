@@ -42,8 +42,8 @@ class _NavigationState extends State<Navigation> {
       // Replace the 8 lines Navigator.push by a simple Get.to(). You don't need context
       body: PageView(controller: _pageController, children: [
         Schedule(),
-        QRCode(),
-        Setting(),
+        const QRCode(),
+        const Setting(),
       ]),
       bottomNavigationBar: FloatingNavbar(
         backgroundColor: Theme.of(context).primaryColor,

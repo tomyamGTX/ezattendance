@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kimi.ezattendance.ez_attendance">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="ez_attendance"
         android:name="${applicationName}"
