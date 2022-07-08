@@ -32,7 +32,7 @@ class _NavigationState extends State<Navigation> {
         actions: [
           IconButton(
             onPressed: () => c.changeTheme(),
-            icon: Obx(() => c.isDarkMode.value
+            icon: Obx(() => !c.isDarkMode.value
                 ? const Icon(Icons.nightlight_round)
                 : const Icon(Icons.sunny)),
           )

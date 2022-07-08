@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,11 +55,11 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
       ..addListener(_upState)
       ..addStatusListener((state) {
         if (state == AnimationStatus.completed) {
-          _timer = Timer(Duration(seconds: 2), () {
+          _timer = Timer(const Duration(seconds: 2), () {
             _animationController?.reverse(from: 1.0);
           });
         } else if (state == AnimationStatus.dismissed) {
-          _timer = Timer(Duration(seconds: 2), () {
+          _timer = Timer(const Duration(seconds: 2), () {
             _animationController?.forward(from: 0.0);
           });
         }
@@ -144,8 +145,10 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
         final qrScanSize = constraints.maxWidth * widget.scanBoxRatio;
         final mediaQuery = MediaQuery.of(context);
         if (constraints.maxHeight < qrScanSize * 1.5) {
-          print(
-              "It is recommended that the height ratio of the height to the scanning area be greater than 1.5");
+          if (kDebugMode) {
+            print(
+                "It is recommended that the height ratio of the height to the scanning area be greater than 1.5");
+          }
         }
         return Stack(
           children: <Widget>[
@@ -158,7 +161,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
                 callback: _onCreateController,
               ),
             ),
-            if (widget.headerWidget != null) widget.headerWidget,
+            widget.headerWidget,
             Positioned(
               left: (constraints.maxWidth - qrScanSize) / 2,
               top: (constraints.maxHeight - qrScanSize) * 0.333333,

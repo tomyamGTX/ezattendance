@@ -118,10 +118,10 @@ class _QRCodeState extends State<QRCode> {
                 matches.isNotEmpty
                     ? TextButton(
                         onPressed: () {
-                          matches.forEach((match) {
+                          for (var match in matches) {
                             launchUrl(Uri.parse(
                                 result.substring(match.start, match.end)));
-                          });
+                          }
                           Navigator.pop(context);
                         },
                         child: const Text('Yes'))
@@ -172,10 +172,10 @@ class _QRCodeState extends State<QRCode> {
             matches.isNotEmpty
                 ? TextButton(
                     onPressed: () {
-                      matches.forEach((match) {
+                      for (var match in matches) {
                         launchUrl(
                             Uri.parse(rest.substring(match.start, match.end)));
-                      });
+                      }
                       Navigator.pop(context);
                     },
                     child: const Text('Yes'))

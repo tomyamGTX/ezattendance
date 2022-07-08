@@ -14,7 +14,7 @@ class _ScheduleState extends State<Schedule> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [ScheduleTile()],
+        children: const [ScheduleTile()],
       ),
     );
   }
