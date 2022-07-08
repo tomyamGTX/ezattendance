@@ -12,6 +12,7 @@ class QrcodeReaderView extends StatefulWidget {
   final double scanBoxRatio;
   final Color boxLineColor;
   final Widget? helpWidget;
+
   const QrcodeReaderView({
     Key? key,
     required this.onScan,
@@ -36,6 +37,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   AnimationController? _animationController;
   bool openFlashlight = false;
   Timer? _timer;
+
   @override
   void initState() {
     super.initState();
@@ -46,17 +48,17 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   void _initAnimation() {
     setState(() {
       _animationController = AnimationController(
-          vsync: this, duration: const Duration(milliseconds: 1000));
+          vsync: this, duration: const Duration(seconds: 2));
     });
     _animationController!
       ..addListener(_upState)
       ..addStatusListener((state) {
         if (state == AnimationStatus.completed) {
-          _timer = Timer(Duration(seconds: 1), () {
+          _timer = Timer(Duration(seconds: 2), () {
             _animationController?.reverse(from: 1.0);
           });
         } else if (state == AnimationStatus.dismissed) {
-          _timer = Timer(Duration(seconds: 1), () {
+          _timer = Timer(Duration(seconds: 2), () {
             _animationController?.forward(from: 0.0);
           });
         }
@@ -82,6 +84,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   }
 
   bool isScan = false;
+
   Future _onQrBack(data, _) async {
     if (isScan == true) return;
     isScan = true;
@@ -271,7 +274,7 @@ class QrScanBoxPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final borderRadius = BorderRadius.all(Radius.circular(12)).toRRect(
+    final borderRadius = const BorderRadius.all(Radius.circular(12)).toRRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
     );
     canvas.drawRRect(
@@ -285,7 +288,7 @@ class QrScanBoxPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    final path = new Path();
+    final path = Path();
     // leftTop
     path.moveTo(0, 50);
     path.lineTo(0, 12);
@@ -310,8 +313,8 @@ class QrScanBoxPainter extends CustomPainter {
 
     canvas.drawPath(path, borderPaint);
 
-    canvas.clipRRect(
-        BorderRadius.all(Radius.circular(12)).toRRect(Offset.zero & size));
+    canvas.clipRRect(const BorderRadius.all(Radius.circular(12))
+        .toRRect(Offset.zero & size));
 
     // 绘制横向网格
     final linePaint = Paint();
@@ -320,8 +323,8 @@ class QrScanBoxPainter extends CustomPainter {
     linePaint.style = PaintingStyle.stroke;
     linePaint.shader = LinearGradient(
       colors: [Colors.transparent, boxLineColor],
-      begin: isForward ? Alignment.topCenter : Alignment(0.0, 2.0),
-      end: isForward ? Alignment(0.0, 0.5) : Alignment.topCenter,
+      begin: isForward ? Alignment.topCenter : const Alignment(0.0, 2.0),
+      end: isForward ? const Alignment(0.0, 0.5) : Alignment.topCenter,
     ).createShader(Rect.fromLTWH(0, leftPress, size.width, lineSize));
     for (int i = 0; i < size.height / 5; i++) {
       canvas.drawLine(

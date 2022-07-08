@@ -43,7 +43,6 @@ class _QRCodeState extends State<QRCode> {
             body: QrcodeReaderView(
               onScan: (result) async {
                 Navigator.of(context).pop();
-
                 alert(result);
               },
               headerWidget: AppBar(
@@ -191,7 +190,7 @@ class _QRCodeState extends State<QRCode> {
             Container(
               height: 1,
               margin: const EdgeInsets.symmetric(vertical: 12),
-              color: Colors.black12,
+              color: Theme.of(context).primaryColorLight,
             ),
             _showScanView == false
                 ? TextButton(
@@ -202,7 +201,7 @@ class _QRCodeState extends State<QRCode> {
                 onPressed: flashlight,
                 child: Text(_flashlightState == false
                     ? 'Turn on the flashlight'
-                    : 'turn off the flashlight')),
+                    : 'Turn off the flashlight')),
             _showScanView == true
                 ? Flexible(
                     child: QrReaderView(
