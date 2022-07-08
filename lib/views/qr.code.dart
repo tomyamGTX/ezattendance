@@ -103,15 +103,39 @@ class _QRCodeState extends State<QRCode> {
     assert(_controller != null);
     _controller?.startCamera((String result, _) async {
       await stopScan();
+      RegExp exp =
+          RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+      Iterable<RegExpMatch> matches = exp.allMatches(result);
       showDialog(
-        context: scaffoldKey.currentContext!,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Scanning result'),
-            content: Text(result),
-          ).build(context);
-        },
-      );
+          context: scaffoldKey.currentContext!,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Scanning result'),
+              content: matches.isEmpty
+                  ? Text(result)
+                  : Text('Navigate to $result ?'),
+              actions: [
+                matches.isNotEmpty
+                    ? TextButton(
+                        onPressed: () {
+                          matches.forEach((match) {
+                            launchUrl(Uri.parse(
+                                result.substring(match.start, match.end)));
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Yes'))
+                    : Container(),
+                matches.isNotEmpty
+                    ? TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('No'))
+                    : Container()
+              ],
+            );
+          });
     });
   }
 
@@ -132,6 +156,7 @@ class _QRCodeState extends State<QRCode> {
   }
 
   Future imgScan() async {
+    await stopScan();
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
     final rest = await FlutterQrReader.imgScan(image.path);

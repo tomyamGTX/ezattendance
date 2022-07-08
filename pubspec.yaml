@@ -39,6 +39,8 @@ dependencies:
   url_launcher:
   share_plus:
   path_provider:
+  modal_bottom_sheet: ^2.1.0
+  date_time_picker:
 
 
   # The following adds the Cupertino Icons font to your application.
